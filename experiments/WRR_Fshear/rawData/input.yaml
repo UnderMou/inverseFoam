@@ -1,0 +1,32 @@
+# =========================
+# Core properties
+# k   : absolute permeability [m2]
+# phi : porosity [-]
+# =========================
+core:
+  k: 2.17e-13   
+  phi: 0.1593
+  L: 0.1498
+  D: 0.0382
+
+# =========================
+# Relative permeability
+# Corey-type parameters
+# =========================
+relPerm:
+  swc: 0.4
+  sgr: 0.293
+
+  nw_: 2.98
+  ng_: 0.96
+
+  krw0: 0.302
+  krg0: 0.04
+
+# =========================
+# Fluid properties
+# =========================
+fluids:
+  muw: 1.05e-03     # water viscosity
+  mug: 2.00e-05     # gas viscosity
+  sigma_wg: 0.03    # water-gas interfacial tension [N/m]
