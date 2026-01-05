@@ -11,9 +11,9 @@ class coreyBrooks3ph:
         self.sor = infos['sor']
 
         # Exponents
-        self.nw = infos['nw']
-        self.ng = infos['ng']
-        self.no = infos['no']
+        self.nw = infos['nw_']
+        self.ng = infos['ng_']
+        self.no = infos['no_']
 
         # End-points
         self.krw0 = infos['krw0']
@@ -25,6 +25,6 @@ class coreyBrooks3ph:
 
     def krg(self, Sg):
         return self.krg0 * np.power(np.divide(Sg - self.sgr, 1 - self.swc - self.sgr - self.sor), self.ng)
-
+    
     def kro(self, So):
         return self.kro0 * np.power(np.divide(So - self.sor, 1 - self.swc - self.sgr - self.sor), self.no)
