@@ -1,9 +1,9 @@
 import numpy as np
 from scipy import optimize as opt
 
-from relativePermeabilityModels import *
+# from relativePermeabilityModels import *
 
-class Stars3ph:
+class stars3ph:
 
     def __init__(self, input, NcaModel = 'Boeije', Foil_Act = False, Fshear_Act = False):
         

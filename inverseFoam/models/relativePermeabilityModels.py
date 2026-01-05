@@ -1,6 +1,5 @@
 import numpy as np
 
-# Corey-Brooks 3ph
 class coreyBrooks3ph:
 
     def __init__(self, infos):
