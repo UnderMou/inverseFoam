@@ -87,12 +87,14 @@ if __name__ == '__main__':
                 'wor': ExpData["uw_ug"]["wor"],
                 'ug': ug_des.tolist(),
                 'uw': uw_des.tolist(),
+                'uo': np.zeros_like(ug_des).tolist(),
                 'ut': ut_des.tolist()
             },
             'gradP': gradP_des.tolist(),
             'phase_saturations': {
                 'Sw': sw_des.tolist(),
-                'Sg': sg_des.tolist()
+                'Sg': sg_des.tolist(),
+                'So': np.zeros_like(sg_des).tolist()
             }
         }
     

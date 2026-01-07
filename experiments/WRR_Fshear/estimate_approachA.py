@@ -4,7 +4,7 @@ sys.path.append("../../")
 
 from inverseFoam.models.relativePermeabilityModels import coreyBrooks3ph
 from inverseFoam.models.foamModels import stars3ph
-from inverseFoam.problems import foamLeastSquare
+from inverseFoam.problems.foamLeastSquare import foamLeastSquareWRR
 from inverseFoam.analysis.foamFit import foamFit, optSetup
 
 import numpy as np
@@ -16,25 +16,26 @@ from pymoo.operators.sampling.rnd import FloatRandomSampling
 from pymoo.termination.default import DefaultSingleObjectiveTermination
 
 if __name__ == "__main__":
-
-    ranges = [[10, 10000],   # fmmob
-              [0, 1],        # fmdry
-              [10, 5000]]    # epdry
     
-    alphas = [1.0]           # weights for each experiment
+    with open("rawData/input.yaml") as f:
+        input = yaml.safe_load(f)          
 
     with open('rawData/interpolatedExperimentalData.json', 'r') as f:
         expData = json.load(f)
     
     keys = list(expData.keys())
-    expData = expData[keys[0]]
-
-    with open("rawData/input.yaml") as f:
-        input = yaml.safe_load(f)
+    expData = [expData[keys[0]]]
+    alphas = [1.0] 
 
     models = [stars3ph(input)]
 
-    problem = foamLeastSquare(ranges, alphas, models, input, expData)
+    ranges = [
+        [10, 10000],                                               # fmmob
+        [input['relPerm']['swc'], 1 - input['relPerm']['sgr']],    # fmdry
+        [10, 4000]                                                 # epdry                                                      # epcap
+    ]
+
+    problem = foamLeastSquareWRR(ranges, alphas, models, input, expData)
 
     algorithm = DE(
         pop_size=200,
@@ -49,12 +50,15 @@ if __name__ == "__main__":
     termination = DefaultSingleObjectiveTermination(
                         n_max_gen=2000,
                         n_max_evals=400000,
-                        period=30)
+                        period=50)
     
     opt_setup = optSetup(problem, algorithm, termination)
 
-    num_workers = 3
-    num_runs = 9
-    fitting = foamFit(opt_setup, num_workers, num_runs)
+    output_path = 'results/approachA'
+    num_workers = 5
+    num_runs = 15
+    fitting = foamFit(opt_setup, num_workers, num_runs, output_path = output_path)
 
-    fitting.run()
+    # fitting.run_serial()
+    fitting.run_parallel()
+

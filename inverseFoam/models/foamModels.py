@@ -1,11 +1,11 @@
 import numpy as np
 from scipy import optimize as opt
 
-# from relativePermeabilityModels import *
+from inverseFoam.models.relativePermeabilityModels import coreyBrooks3ph
 
 class stars3ph:
 
-    def __init__(self, input, NcaModel = 'Boeije', Foil_Act = False, Fshear_Act = False):
+    def __init__(self, input, NcaModel = None, Foil_Act = False, Fshear_Act = False):
         
         # Options
         self.Fshear_Act = Fshear_Act
@@ -99,9 +99,13 @@ class stars3ph:
         krw = self.relPerm.krw(Sw)
         kro = self.relPerm.kro(So)
         mob_w, mob_o, mob_g = krw/self.muw, kro/self.muo, krg/self.mug
-
+        
         if self.Fshear_Act:
-            if self.NcaModel == 'Boeije':
+            if self.NcaModel == None:
+                raise ValueError(
+                    "NcaModel = 'None'. Use 'Boeije', 'Zeng' or 'Abbaszadeh'"
+                )
+            elif self.NcaModel == 'Boeije':
                 muapp = self.muappApprox(mob_w, mob_g, mob_o, Sw, So, ut)
                 Nca = muapp * ut / self.sigma_wg
             elif self.NcaModel == 'Zeng':

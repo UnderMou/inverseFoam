@@ -64,7 +64,12 @@ def eval_saturation_2ph(fg, muapp, wo_rel, fluidsProp, relPerm):
         swe = (((1-fg) / (1+wo_rel)) * muw/(muapp*krw0) )**(1/nw)
         swe = np.clip(swe, 0, 1)
         Sw = (1-swc-sgr) * swe + swc
-
         Sg = 1.0 - Sw 
+
+        # Sw = np.zeros(len(fg))
+        # for k in range(len(fg)):
+        #         if(muapp[k] > 1.0e-08):
+        #                 Sw[k] = swc + (1.0 - swc - sgr) * pow( (muw * (1.0 - fg[k])) / (krw0 * muapp[k]) ,1.0/nw)
+        # Sg = 1 - Sw
 
         return Sw, Sg

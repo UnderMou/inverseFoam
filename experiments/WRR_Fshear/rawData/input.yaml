@@ -2,6 +2,8 @@
 # Core properties
 # k   : absolute permeability [m2]
 # phi : porosity [-]
+# L   : core length [m]
+# D   : core diameter [m]
 # =========================
 core:
   k: 2.17e-13   
@@ -16,17 +18,21 @@ core:
 relPerm:
   swc: 0.4
   sgr: 0.293
+  sor: 0
 
   nw_: 2.98
   ng_: 0.96
+  no_: 0
 
   krw0: 0.302
   krg0: 0.04
+  kro0: 0
 
 # =========================
 # Fluid properties
 # =========================
 fluids:
-  muw: 1.05e-03     # water viscosity
-  mug: 2.00e-05     # gas viscosity
+  muw: 1.05e-03     # water viscosity Pa.s
+  mug: 2.00e-05     # gas viscosity Pa.s
+  muo: 1
   sigma_wg: 0.03    # water-gas interfacial tension [N/m]

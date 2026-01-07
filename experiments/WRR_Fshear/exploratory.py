@@ -3,7 +3,7 @@ import sys
 sys.path.append("../../")
 
 from inverseFoam.rawDataTools.dataInterpolators import *
-# from inverseFoam.models.relativePermeability import coreyBrooks3ph
+from inverseFoam.rawDataTools.utils import *
 
 import numpy as np
 import yaml
@@ -35,6 +35,12 @@ if __name__ == '__main__':
     ug = ut * fg
     uw = ut - ug
 
+    muApp = convert_cP_to_Pas(muApp)
+    std_muApp = convert_cP_to_Pas(std_muApp)
+    ug = convert_ftDay_to_mSeg(ug)
+    uw = convert_ftDay_to_mSeg(uw)
+    ut = convert_ftDay_to_mSeg(ut)
+
     sw, sg = eval_saturation_2ph(fg, muApp, 0.0, inputData["fluids"], inputData["relPerm"])
 
     # interp_expData[f"Foam_Quality_Scan_ut_{ExpData["FQS"]["ut"]:.2f}"] = {
@@ -43,13 +49,16 @@ if __name__ == '__main__':
             'muApp': muApp.tolist(),
             'std_muApp': std_muApp.tolist(),
             'velocities': {
+                'wor': 0,
                 'ug': ug.tolist(),
                 'uw': uw.tolist(),
+                'uo': np.zeros_like(ug).tolist(),
                 'ut': ut.tolist()
             },
             'phase_saturations': {
                 'Sw': sw.tolist(),
-                'Sg': sg.tolist()
+                'Sg': sg.tolist(),
+                'So': np.zeros_like(sg).tolist()
             }
     }
     
@@ -63,23 +72,33 @@ if __name__ == '__main__':
         std_muApp = ExpDataArray[:,2]
 
         fg = ExpData[FRS_keys[i]]["fg"] * np.ones_like(ut)
-        sw, sg = eval_saturation_2ph(fg, muApp, 0.0, inputData["fluids"], inputData["relPerm"])
 
         ug = ut * fg
         uw = ut - ug
+
+        muApp = convert_cP_to_Pas(muApp)
+        std_muApp = convert_cP_to_Pas(std_muApp)
+        ug = convert_ftDay_to_mSeg(ug)
+        uw = convert_ftDay_to_mSeg(uw)
+        ut = convert_ftDay_to_mSeg(ut)
+
+        sw, sg = eval_saturation_2ph(fg, muApp, 0.0, inputData["fluids"], inputData["relPerm"])
 
         interp_expData[f"Flow_Rate_Scan_fg_{ExpData[FRS_keys[i]]['fg']:.2f}"] = {
             'fg': fg.tolist(),
             'muApp': muApp.tolist(),
             'std_muApp': std_muApp.tolist(),
             'velocities': {
+                'wor': 0,
                 'ug': ug.tolist(),
                 'uw': uw.tolist(),
+                'uo': np.zeros_like(ug).tolist(),
                 'ut': ut.tolist()
             },
             'phase_saturations': {
                 'Sw': sw.tolist(),
-                'Sg': sg.tolist()
+                'Sg': sg.tolist(),
+                'So': np.zeros_like(sg).tolist()
             }
     }
         
