@@ -2,6 +2,7 @@ import os
 import json
 import re
 import numpy as np
+from concurrent.futures import ProcessPoolExecutor
 
 from inverseFoam.rawDataTools.utils import unpack_expDataDict3ph
 
@@ -202,3 +203,34 @@ def eval_model_FRS(model, res_path, input, expDict, expName, flow = None, tol = 
     }
 
     return res   
+
+def run_one_case(args):
+    model, result_path, input_data, expDict, exp_key, flow, expType = args
+
+    assert expType is not None and expType in ("FQS", "FRS"), (
+        "flow must be defined and be either 'FQS' or 'FRS'"
+    )
+
+    if expType == 'FQS':
+        res = eval_model_FQS(
+            model,
+            result_path,
+            input_data,
+            expDict,
+            exp_key,
+            flow=flow
+        )
+    else: 
+        res = eval_model_FRS(
+            model,
+            result_path,
+            input_data,
+            expDict,
+            exp_key,
+            flow=flow
+        )
+
+    with open(result_path, "w") as f:
+        json.dump(res, f, indent=4)
+
+    return result_path

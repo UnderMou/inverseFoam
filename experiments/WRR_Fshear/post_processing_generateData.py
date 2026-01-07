@@ -38,27 +38,86 @@ if __name__ == "__main__":
               stars3ph(input, NcaModel = 'Zeng', Fshear_Act = True),
               stars3ph(input, NcaModel = 'Zeng', Fshear_Act = True)]
 
-    # # Foam quality scan experiment
+    # # # Foam quality scan experiment
+    # exp_id = 0  
+    # expDict = expData[exp_id]    
+    # for j in range(len(results_path)):
+    #     res = eval_model_FQS(models[exp_id], results_path[j], input, expDict, keys_exp[exp_id], flow = '2ph')
+    #     with open(results_path[j], 'w') as f:
+    #         json.dump(res, f, indent=4)
+
+    # # Flow rate scan experiment fg = 0.6
+    # exp_id = 1  
+    # expDict = expData[exp_id]    
+    # for j in range(len(results_path)):
+    #     res = eval_model_FRS(models[exp_id], results_path[j], input, expDict, keys_exp[exp_id], flow = '2ph')
+    #     with open(results_path[j], 'w') as f:
+    #         json.dump(res, f, indent=4)
+
+    # # Flow rate scan experiment fg = 0.8
+    # exp_id = 2
+    # expDict = expData[exp_id]    
+    # for j in range(len(results_path)):
+    #     res = eval_model_FRS(models[exp_id], results_path[j], input, expDict, keys_exp[exp_id], flow = '2ph')
+    #     with open(results_path[j], 'w') as f:
+    #         json.dump(res, f, indent=4)
+
+
+
+    # Foam quality scan experiment
     exp_id = 0  
-    expDict = expData[exp_id]    
-    for j in range(len(results_path)):
-        res = eval_model_FQS(models[exp_id], results_path[j], input, expDict, keys_exp[exp_id], flow = '2ph')
-        with open(results_path[j], 'w') as f:
-            json.dump(res, f, indent=4)
+    expDict = expData[exp_id] 
+    tasks = [
+        (
+            models[exp_id],
+            results_path[j],
+            input,
+            expDict,
+            keys_exp[exp_id],
+            "2ph",
+            "FQS"
+        )
+        for j in range(len(results_path))
+    ]
+    n_workers = 6
+    with ProcessPoolExecutor(max_workers=n_workers) as executor:
+        list(executor.map(run_one_case, tasks))
 
     # Flow rate scan experiment fg = 0.6
     exp_id = 1  
-    expDict = expData[exp_id]    
-    for j in range(len(results_path)):
-        res = eval_model_FRS(models[exp_id], results_path[j], input, expDict, keys_exp[exp_id], flow = '2ph')
-        with open(results_path[j], 'w') as f:
-            json.dump(res, f, indent=4)
+    expDict = expData[exp_id] 
+    tasks = [
+        (
+            models[exp_id],
+            results_path[j],
+            input,
+            expDict,
+            keys_exp[exp_id],
+            "2ph",
+            "FRS"
+        )
+        for j in range(len(results_path))
+    ]
+    n_workers = 6
+    with ProcessPoolExecutor(max_workers=n_workers) as executor:
+        list(executor.map(run_one_case, tasks))
 
     # Flow rate scan experiment fg = 0.8
-    exp_id = 2
-    expDict = expData[exp_id]    
-    for j in range(len(results_path)):
-        res = eval_model_FRS(models[exp_id], results_path[j], input, expDict, keys_exp[exp_id], flow = '2ph')
-        with open(results_path[j], 'w') as f:
-            json.dump(res, f, indent=4)
+    exp_id = 2  
+    expDict = expData[exp_id] 
+    tasks = [
+        (
+            models[exp_id],
+            results_path[j],
+            input,
+            expDict,
+            keys_exp[exp_id],
+            "2ph",
+            "FRS"
+        )
+        for j in range(len(results_path))
+    ]
+    n_workers = 6
+    with ProcessPoolExecutor(max_workers=n_workers) as executor:
+        list(executor.map(run_one_case, tasks))
             

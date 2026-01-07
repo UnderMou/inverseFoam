@@ -43,7 +43,6 @@ if __name__ == "__main__":
     plt.errorbar(fg_exp, muapp_exp, yerr=std_muapp_exp, fmt='bo', capsize=5, label=keys_exp[exp_id])
 
     plt.show()
-        
 
     # Flow rate scan experiment fg = 0.6
     exp_id = 1 
