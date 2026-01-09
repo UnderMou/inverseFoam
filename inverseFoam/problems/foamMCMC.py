@@ -142,7 +142,7 @@ class foamForwardModel:
     
 class mcmcProblemWRR:
 
-    def __init__(self, alpha, expData, **kwargs):
+    def __init__(self, model, alpha, expData, **kwargs):
 
         # gather experimental data into a Y vector
         exp_list = [expData[i]['muApp'] for i in range(len(expData))]
@@ -159,14 +159,52 @@ class mcmcProblemWRR:
         alpha_QS = alpha[exp_id] * np.ones_like(expData[exp_id]['muApp'])
         alpha_QS[np.argmax(expData[exp_id]['muApp'])] *= weight_trans
 
-        exp_id = 1
-        alpha_FR1 = alpha[exp_id] * np.ones_like(expData[exp_id]['muApp'])
+        if model.Fshear_Act:
+            exp_id = 1
+            alpha_FR1 = alpha[exp_id] * np.ones_like(expData[exp_id]['muApp'])
 
-        exp_id = 2
-        alpha_FR2 = alpha[exp_id] * np.ones_like(expData[exp_id]['muApp'])
-        alpha_FR2[0] *= weight_trans
+            exp_id = 2
+            alpha_FR2 = alpha[exp_id] * np.ones_like(expData[exp_id]['muApp'])
+            alpha_FR2[0] *= weight_trans
 
-        self.alpha_vec = np.concatenate((alpha_QS, alpha_FR1, alpha_FR2))
+            self.alpha_vec = np.concatenate((alpha_QS, alpha_FR1, alpha_FR2))
+        else:
+            self.alpha_vec = alpha_QS
+    
+    def get_att(self):
+
+        return self.Y, self.std, self.alpha_vec
+    
+class mcmcProblemWRR_approachB:
+
+    def __init__(self, model, alpha, expData, **kwargs):
+
+        # gather experimental data into a Y vector
+        exp_list = [expData[i]['muApp'] for i in range(len(expData))]
+        self.Y = np.concatenate(exp_list)
+
+        # experimental error/uncertainty
+        self.std = max(
+            np.max(exp['std_muApp']) for exp in expData
+        )
+
+        weight_trans = 2.0
+
+        exp_id = 0
+        alpha_QS = alpha[exp_id] * np.ones_like(expData[exp_id]['muApp'])
+        alpha_QS[np.argmax(expData[exp_id]['muApp'])] *= weight_trans
+
+        # if model.Fshear_Act:
+        #     exp_id = 1
+        #     alpha_FR1 = alpha[exp_id] * np.ones_like(expData[exp_id]['muApp'])
+
+        #     exp_id = 2
+        #     alpha_FR2 = alpha[exp_id] * np.ones_like(expData[exp_id]['muApp'])
+        #     alpha_FR2[0] *= weight_trans
+
+        #     self.alpha_vec = np.concatenate((alpha_QS, alpha_FR1, alpha_FR2))
+        # else:
+        self.alpha_vec = alpha_QS
     
     def get_att(self):
 

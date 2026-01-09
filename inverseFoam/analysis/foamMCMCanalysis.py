@@ -10,9 +10,10 @@ from inverseFoam.problems.foamMCMC import foamForwardModel, make_th_forward_mode
 
 class foamMCMCanalysis:
 
-    def __init__(self, mcmcProblem, ranges, alpha, model, input, expData, **kwargs):
+    def __init__(self, mcmcProblem, ranges, model, input, expData, **kwargs):
         
         self.Y, self.std, self.alpha_vec = mcmcProblem.get_att()
+        self.mcmcProblem = mcmcProblem
 
         assert hasattr(self, "Y")
         assert hasattr(self, "std")

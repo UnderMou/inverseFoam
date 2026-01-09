@@ -35,8 +35,8 @@ if __name__ == "__main__":
         [0,1]                                                      # epcap
     ]
 
-    mcmcProblem = mcmcProblemWRR(alphas, expData)
-    mcmcAnalysis = foamMCMCanalysis(mcmcProblem, ranges, alphas, models[0], input, expData)
+    mcmcProblem = mcmcProblemWRR(models[0], alphas, expData)
+    mcmcAnalysis = foamMCMCanalysis(mcmcProblem, ranges, models[0], input, expData)
     
     outputPath = 'results/mcmc_approachC'
     n_samples = 20000
