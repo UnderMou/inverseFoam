@@ -14,6 +14,7 @@ class foamLeastSquare(Problem, ABC):
         self.expData = expData
         self.alpha = alpha
         self.models = models
+        self.ranges = ranges
 
         assert len(self.expData) == len(self.alpha) == len(self.models), (
             "expData, alpha, and models must have the same length"

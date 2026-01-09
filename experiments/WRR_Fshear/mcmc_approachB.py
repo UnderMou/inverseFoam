@@ -37,7 +37,7 @@ if __name__ == "__main__":
     mcmcAnalysis = foamMCMCanalysis(mcmcProblem, ranges, models[0], input, expData)
     
     outputPath = 'results/mcmc_approachB'
-    n_samples = 100000
+    n_samples = 300000
     burnIn = 20000
 
     mcmcAnalysis.run(outputPath, n_samples, burnIn)
