@@ -1,8 +1,9 @@
-import multiprocessing
 import json
 import numpy as np
 import os
 from copy import deepcopy
+from tqdm import tqdm
+import multiprocessing as mp
 
 from pymoo.optimize import minimize
 
@@ -54,15 +55,19 @@ class foamFit():
 
     def run_parallel(self):
 
-        with multiprocessing.Pool(processes=self.np) as pool:
-            results = pool.map(process_item, self.data)
+        with mp.Pool(processes=self.np) as pool:
+            results = list(
+                tqdm(
+                    pool.imap(process_item, self.data),
+                    total=len(self.data),
+                    desc="Running jobs"
+                )
+            )
     
     def run_serial(self):
-        
-        for i in range(len(self.data)):
 
-            item = self.data[i]
-            path, seed, opt_setup = item[0], item[1], item[2]
+        for item in tqdm(self.data, desc="Running serial jobs"):
+            path, seed, opt_setup = item
             run_optimization(path, seed, opt_setup)
 
     

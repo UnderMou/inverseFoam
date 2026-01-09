@@ -40,7 +40,7 @@ if __name__ == "__main__":
     problem = foamLeastSquareWRR(ranges, alphas, models, input, expData)
 
     algorithm = DE(
-        pop_size=200,
+        pop_size=50,
         sampling= FloatRandomSampling(),
         variant="DE/best/1/bin",
         CR=0.6,
@@ -52,13 +52,13 @@ if __name__ == "__main__":
     termination = DefaultSingleObjectiveTermination(
                         n_max_gen=2000,
                         n_max_evals=400000,
-                        period=50)
+                        period=30)
     
     opt_setup = optSetup(problem, algorithm, termination)
 
     output_path = 'results/approachB'
-    num_workers = 5
-    num_runs = 20
+    num_workers = 4
+    num_runs = 200
     fitting = foamFit(opt_setup, num_workers, num_runs, output_path = output_path)
 
     # fitting.run_serial()
