@@ -4,6 +4,8 @@ import re
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor
 
+from scipy.stats import chi2
+
 from inverseFoam.rawDataTools.utils import unpack_expDataDict3ph
 
 def read_estimates(directory):
@@ -234,3 +236,33 @@ def run_one_case(args):
         json.dump(res, f, indent=4)
 
     return result_path
+
+def gather_field(results, result_keys, field):
+    """
+    Gather a scalar field from results into a 1D NumPy array.
+
+    Parameters
+    ----------
+    results : dict
+        Dictionary of results
+    result_keys : list
+        Keys indexing results
+    field : str
+        Field name to extract (e.g. "F")
+
+    Returns
+    -------
+    np.ndarray
+        1D array of extracted values
+    """
+    return np.array([results[k][field] for k in result_keys])
+
+def eval_confidenceLevel(alpha, XPL):
+    
+    chi2theta = np.array(XPL)
+    chi2thetaHat = np.min(XPL) 
+    delta_alpha = chi2.ppf(alpha, df=1)
+
+    diff = chi2theta - chi2thetaHat
+
+    return diff, delta_alpha

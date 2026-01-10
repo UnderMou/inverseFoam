@@ -58,7 +58,7 @@ if __name__ == "__main__":
     
     opt_setup = optSetup(problem, algorithm, termination)
 
-    output_path = 'results/approachC'
+    output_path = 'results/estimate_approachC'
     num_workers = 4
     num_runs = 200
     fitting = foamFit(opt_setup, num_workers, num_runs, output_path = output_path)
