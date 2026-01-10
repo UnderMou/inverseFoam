@@ -79,28 +79,4 @@ class foamIdentifiabilityAnalysis():
             writer = csv.writer(csvfile)
             writer.writerow(results)
         
-        ### Post processing
-        arrays = []
-        with open(filename, newline='') as f:
-            reader = csv.reader(f)
-            for row in reader:
-                # row is a list of strings, each string is "[...]"
-                arrays = [ast.literal_eval(entry) for entry in row]
-                # break  # assuming one row; remove if multiple rows
-        XPL = np.array(arrays, dtype=float)
-        # print(XPL)
         
-        with open(self.problem.path + '/ranges.csv', newline='') as f:
-            reader = csv.reader(f)
-            for row in reader:
-                # row is a list of strings, each string is "[...]"
-                arrays = [ast.literal_eval(entry) for entry in row]
-                # break  # assuming one row; remove if multiple rows
-        ranges = np.array(arrays, dtype=float)
-        # print(ranges)
-
-        j = 0
-        for i in range(XPL.shape[0]):
-            x = np.linspace(ranges[i][0], ranges[i][-1], XPL[i,:].shape[0])
-            plt.plot(x,XPL[i,:])
-            plt.show()
