@@ -1,0 +1,64 @@
+# Sample 3: digitized Figure 5 gas-fraction scans.
+# Source: inputs/Vieira_Figure5_muApp_vs_FG_digitized.csv
+# ut is Darcy velocity [ft./day], matching the reference YAML.
+# Assumes the globally reported 0.5 mL/min applies at core conditions;
+# this rate is not independently confirmed for these scans.
+# Data columns: fg [-], muApp [cP], std_muApp [cP].
+# Standard deviations are unavailable and represented by null.
+# FG=0 zero viscosities are retained from digitization, not fluid properties.
+
+FQS_625mgL:
+  surfactant_concentration_mg_L: 625
+  ut: 2.07194251065 # ft./day
+  data: # fg, muApp [cP], std_muApp [cP]
+    - [0.25, 50.42, null]
+    - [0.5, 164.64, null]
+    - [0.7, 253.69, null]
+    - [0.75, 267.24, null]
+    - [0.85, 214.97, null]
+    - [0.9, 193.68, null]
+    - [1.0, 48.49, null]
+
+FQS_1250mgL:
+  surfactant_concentration_mg_L: 1250
+  ut: 2.07194251065 # ft./day
+  data: # fg, muApp [cP], std_muApp [cP]
+    - [0.25, 414.36, null]
+    - [0.5, 789.92, null]
+    - [0.7, 1012.54, null]
+    - [0.75, 1055.13, null]
+    - [0.85, 1016.41, null]
+    - [0.9, 782.17, null]
+    - [1.0, 182.06, null]
+
+FQS_2500mgL:
+  surfactant_concentration_mg_L: 2500
+  ut: 2.07194251065 # ft./day
+  data: # fg, muApp [cP], std_muApp [cP]
+    - [0.25, 940.91, null]
+    - [0.5, 1757.84, null]
+    - [0.7, 1835.27, null]
+    - [0.75, 2079.19, null]
+    - [0.85, 1796.55, null]
+    - [0.9, 1873.99, null]
+    - [1.0, 425.98, null]
+  
+oil_observations:
+  data: # So, F2
+    - [0.0667, 1.0000]
+    - [0.2191, 0.8904]
+    - [0.2724, 0.5469]
+    - [0.3115, 0.3530]
+    - [0.3541, 0.1749]
+
+baseline:
+  surfactant_concentration_mg_L: 0
+  ut: 2.07194251065 # ft./day
+  # No-surfactant water-gas co-injection at FG*=0.75.
+  # Inferred in exploratory.ipynb from the 2500 mg/L peak and Table 7 FMMOB:
+  # 2079.19 / (1 + 2005.5) = 1.036227 cP (rounded).
+  # This is not an independent experimental measurement.
+  status: inferred
+  data: # fg, muApp [cP], std_muApp [cP]
+    - [0.75, 1.036227, null]
+

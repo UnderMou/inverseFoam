@@ -1,0 +1,34 @@
+# Sample 3 inputs reduced from sample3_inputs.py.
+# null denotes a value not supplied by the source inventory.
+
+# Core properties (SI units)
+core:
+  k: 4.0384901436e-13  # absolute permeability [m2]; 409.2 mD
+  phi: 0.099          # porosity [-]
+  L: 0.245            # core length [m]
+  D: 0.0381           # core diameter [m]
+
+# Relative permeability: Corey-type parameters are unavailable.
+# Initial oil saturation of zero does not specify residual oil saturation.
+relPerm:
+  swc: 0.36
+  sgr: 0.0
+  # sor: 0.16
+  sor: 0.0
+
+  nw_: 2.7
+  ng_: 6.89
+  # no_: 3.0
+  no_: 1.0
+
+  krw0: 0.365
+  krg0: 0.278
+  # kro0: 0.574
+  kro0: 1.0
+
+# Fluid properties
+fluids:
+  muw: 0.603e-03     # water viscosity Pa.s
+  mug: 1.250e-05     # gas viscosity Pa.s
+  muo: 1.0
+  sigma: 1.0
