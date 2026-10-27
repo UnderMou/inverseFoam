@@ -42,10 +42,17 @@ class stars3ph:
             self.fmcap = x[3]
             self.epcap = x[4]
         
+            if self.Foil_Act:
+                self.fmoil = x[5]
+                self.floil = x[6]
+                self.epoil = x[7]
+        
         if self.Foil_Act:
-            self.fmoil = x[5]
-            self.floil = x[6]
-            self.epoil = x[7]
+                self.fmcap = 1.0
+                self.epcap = 0.0
+                self.fmoil = x[3]
+                self.floil = x[4]
+                self.epoil = x[5]
 
     def eval_fdry(self, Sw):
         return 0.5 + np.arctan(self.epdry*(Sw-self.fmdry)) / np.pi

@@ -1,9 +1,3 @@
-"""Vectorized STARS/Corey forward models for the local PyMC3 notebook.
-
-Fixed data are supplied explicitly through the parameters dictionary. No cloud
-client, YAML files, notebook state or saved estimates are needed by this module.
-The numerical model matches the former UQPyLab callbacks.
-"""
 
 import numpy as np
 
@@ -19,7 +13,6 @@ COORDINATE_NAMES = ["log_fmmob", "log_epdry", "fmdry", "log_epsurf", "log_epoil"
 
 
 def decode_parameters(x):
-    """Map the seven prior coordinates to physical foam parameters."""
     x = np.asarray(x, dtype=float)
     if x.shape[-1] != 7 or not np.isfinite(x).all():
         raise ValueError("Expected seven finite prior coordinates.")
@@ -35,7 +28,6 @@ def decode_parameters(x):
 
 
 def encode_parameters(theta):
-    """Inverse transformation, including the ordering of oil thresholds."""
     theta = np.asarray(theta, dtype=float)
     if theta.shape[-1] != 7 or not np.isfinite(theta).all():
         raise ValueError("Expected seven finite physical parameters.")

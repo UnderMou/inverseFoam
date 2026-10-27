@@ -103,6 +103,7 @@ class foamForwardModel:
             fg, fw, muapp, Nca, Fdry, Fshear, Foil = self.model.evaluate(sg, sw, so, ut, ug)
  
             res.append(muapp)
+            res.append(fg)
 
         return np.concatenate(res)
 
@@ -137,6 +138,7 @@ class foamForwardModel:
             fg, fw, muapp, Nca, Fdry, Fshear, Foil = self.model.evaluate(sg, sw, so, ut, ug)
  
             res.append(muapp)
+            res.append(fg)
         
         return np.concatenate(res)
     
@@ -210,3 +212,31 @@ class mcmcProblemWRR_approachB:
 
         return self.Y, self.std, self.alpha_vec
 
+class mcmcProblemTangRefit:
+
+    def __init__(self, models, alpha, expData, **kwargs):
+
+        # gather experimental data into a Y vector
+        exp_list = [np.concatenate((expData[i]['muApp'],expData[i]['fg'])) for i in range(len(expData))]
+        self.Y = np.concatenate(exp_list)
+
+        # experimental error/uncertainty
+        self.std = max(
+            np.max(exp['std_muApp']) for exp in expData
+        )
+
+        weight_trans = 1.0
+
+        temp_vec = []
+        for i in range(len(expData)):
+            alpha_QS = alpha[i] * np.ones_like(expData[i]['muApp'])
+            if i == 0: alpha_QS[np.argmax(expData[i]['muApp'])] *= weight_trans
+            temp_vec = np.concatenate((temp_vec, alpha_QS))
+            alpha_QS = alpha[i] * np.ones_like(expData[i]['fg'])
+            temp_vec = np.concatenate((temp_vec, alpha_QS))
+
+        self.alpha_vec = temp_vec
+    
+    def get_att(self):
+
+        return self.Y, self.std, self.alpha_vec

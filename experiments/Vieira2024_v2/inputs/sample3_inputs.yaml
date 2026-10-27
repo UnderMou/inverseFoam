@@ -13,22 +13,24 @@ core:
 relPerm:
   swc: 0.36
   sgr: 0.0
-  # sor: 0.16
-  sor: 0.0
+  sor: 0.16
+  # sor: 0.066
+  # sor: 0.0
 
   nw_: 2.7
   ng_: 6.89
-  # no_: 3.0
-  no_: 1.0
+  no_: 3.0
+  # no_: 1.0
 
   krw0: 0.365
   krg0: 0.278
-  # kro0: 0.574
-  kro0: 1.0
+  kro0: 0.574
+  # kro0: 1.0
 
 # Fluid properties
 fluids:
   muw: 0.603e-03     # water viscosity Pa.s
   mug: 1.250e-05     # gas viscosity Pa.s
-  muo: 1.0
+  # muo: 1.0
+  muo: 5.0e-3
   sigma: 1.0

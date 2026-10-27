@@ -31,13 +31,19 @@ class foamMCMCanalysis:
         if self.Fshear_act: 
             self.fmcap = ranges[3][0]
             self.epcap_range = ranges[4]
-        else: 
-            self.fmcap = 1
+
+            if self.Foil_act:
+                self.fmoil_range = ranges[5]
+                self.floil_range = ranges[6]
+                self.epoil_range = ranges[7]
+        else: self.fmcap = 1.0
         
         if self.Foil_act:
-            self.fmoil_range = ranges[5]
-            self.floil_range = ranges[6]
-            self.epoil_range = ranges[7]
+            self.fmcap = 1.0
+            self.epcap = 0.0
+            self.fmoil_range = ranges[3]
+            self.floil_range = ranges[4]
+            self.epoil_range = ranges[5]
 
         # initiate th_forward_model function
         forward_model = foamForwardModel(model, input, expData, self.fmcap)
