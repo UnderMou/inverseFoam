@@ -140,7 +140,7 @@ def residual_blocks(theta, foam_module_noOil, point_weights, mu_obs, so_obs, mu_
         theta, foam_module_oil, sw_oil_obs, sg_oil_obs, so_oil_obs, config, cs_oil_obs, FMSURF,
     )
     oil_r = np.sqrt(1.0) * (mu_oil_obs - mu_predicted) / mu_oil_scale
-    oil_fg_r = np.sqrt(1.0) * (np.asarray(fg_oil_obs) - fg_predicted)
+    oil_fg_r = np.sqrt(0.0) * (np.asarray(fg_oil_obs) - fg_predicted)
 
     return surf_r, oil_r, oil_fg_r
 
