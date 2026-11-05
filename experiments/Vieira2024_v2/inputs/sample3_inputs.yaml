@@ -13,8 +13,8 @@ core:
 relPerm:
   swc: 0.36
   sgr: 0.0
-  sor: 0.16
-  # sor: 0.066
+  # sor: 0.16
+  sor: 0.06
   # sor: 0.0
 
   # nw_: 2.7
